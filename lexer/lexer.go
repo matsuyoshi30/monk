@@ -2,6 +2,7 @@ package lexer
 
 import "monk/token"
 
+// Lexer .
 type Lexer struct {
 	input        string
 	position     int  // current position in input (points to current char)
@@ -9,6 +10,7 @@ type Lexer struct {
 	ch           byte // current char under examination
 }
 
+// New .
 func New(input string) *Lexer {
 	l := &Lexer{input: input}
 	l.readChar()
@@ -33,6 +35,7 @@ func (l *Lexer) peekChar() byte {
     }
 }
 
+// NextToken .
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 

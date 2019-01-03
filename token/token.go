@@ -2,6 +2,7 @@ package token
 
 type TokenType string
 
+// Token .
 type Token struct {
 	Type    TokenType
 	Literal string
@@ -16,11 +17,11 @@ const (
 	INT   = "INT"   // 5, 10 ...
 
 	// Operators
-	ASSIGN = "="
-	PLUS   = "+"
-	MINUS  = "-"
+	ASSIGN   = "="
+	PLUS     = "+"
+	MINUS    = "-"
 	MULTIPLY = "*"
-	DIVIDE = "/"
+	DIVIDE   = "/"
 
 	GT = ">"
 	LT = "<"
@@ -60,6 +61,7 @@ var keywords = map[string]TokenType{
 }
 
 // LookupIdent ...
+//  Check existence in keywords(map)
 func LookupIdent(ident string) TokenType {
 	if tok, ok := keywords[ident]; ok {
 		return tok
