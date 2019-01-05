@@ -385,6 +385,11 @@ func (p *Parser) parseInfixExpression(left ast.Expression) ast.Expression {
 
 	expression.Right = p.parseExpression(precedence)
 
+	if expression.Operator == "/" && expression.Right.String() == "0" {
+		msg := fmt.Sprintf("Cannot divide by 0")
+		p.errors = append(p.errors, msg)
+	}
+
 	return expression
 }
 
