@@ -748,3 +748,22 @@ func TestCallExpressionArguments(t *testing.T) {
 		}
 	}
 }
+
+func TestStringLiteral(t *testing.T) {
+	input := `"Hello World";`
+
+	l := lexer.New(input)
+	p := New(l)
+	program := p.ParseProgram()
+	checkParserErrors(t, p)
+
+	stmt := program.Statements[0].(*ast.ExpressionStatement)
+	literal, ok := stmt.Expression.(*ast.StringLiteral)
+	if !ok {
+		t.Fatalf("stmt is not *ast.StringLiteral, got=%T", stmt.Expression)
+	}
+
+	if literal.Value != "Hello World" {
+		t.Fatalf("literal.Value is not %q, got=%q", "Hello world", literal.Value)
+	}
+}

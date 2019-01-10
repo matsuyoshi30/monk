@@ -28,11 +28,11 @@ func (l *Lexer) readChar() {
 }
 
 func (l *Lexer) peekChar() byte {
-    if l.readPosition >= len(l.input) {
-        return 0
-    } else {
-        return l.input[l.readPosition]
-    }
+	if l.readPosition >= len(l.input) {
+		return 0
+	} else {
+		return l.input[l.readPosition]
+	}
 }
 
 // NextToken .
@@ -84,6 +84,11 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.COMMA, l.ch)
 	case ';':
 		tok = newToken(token.SEMICOLON, l.ch)
+
+	case '"':
+		tok.Type = token.STRING
+		tok.Literal = l.readString()
+
 	case 0:
 		tok.Literal = ""
 		tok.Type = token.EOF
@@ -113,6 +118,20 @@ func (l *Lexer) skipWhitespace() {
 	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
 		l.readChar()
 	}
+}
+
+func (l *Lexer) readString() string {
+	position := l.position + 1
+	for {
+		l.readChar()
+		// TODO: support for escape characters
+		// TODO: error report message
+		if l.ch == '"' || l.ch == 0 {
+			break
+		}
+	}
+
+	return l.input[position:l.position]
 }
 
 func isLetter(ch byte) bool {
